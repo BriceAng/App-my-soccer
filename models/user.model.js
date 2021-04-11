@@ -40,14 +40,6 @@ const userSchema = new mongoose.Schema(
             max: 1024,
         },
 
-        ratings: {
-            type: [String],
-        },
-
-        teamId: {
-            type: String,
-        },
-
         waitList: {
             type: [String],
         },
