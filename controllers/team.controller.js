@@ -121,9 +121,9 @@ module.exports.cancelRequestUser = async (req, res) => {
     } catch (err) {
         res.status(400).send(err);
     }
-}; 
+};
 
-//show wait list team
+//show wait list User
 module.exports.showWaitListUser = (req, res) => {
     if (!ObjectID.isValid(req.params.id))
         return res.status(400).send(' ID unknow : ' + req.params.id)
@@ -139,7 +139,7 @@ module.exports.acceptUser = async (req, res) => {
     if (!ObjectID.isValid(req.params.id))
         return res.status(400).send(' ID unknow : ' + req.params.id)
 
-    try{
+    try {
         await TeamModel.findByIdAndUpdate(
             req.params.id,
             {
@@ -177,12 +177,140 @@ module.exports.acceptUser = async (req, res) => {
     }
 };
 
-//refuse user in wait list to userList
+//Add team to wait list Game
 module.exports.requestGame = async (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send(' ID unknow : ' + req.params.id)
 
+    try {
+        await TeamModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $addToSet: { requestGame: req.body.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (err) return res.status(400).send(err);
+            }
+        );
+        await TeamModel.findByIdAndUpdate(
+            req.body.id,
+            {
+                $addToSet: { pendingRequestGame: req.params.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (!err) res.send(docs);
+                else return res.status(400).send(err);
+            }
+        )
+    } catch (err) {
+        res.status(400).send(err);
+    }
 };
 
-//refuse user in wait list to userList
+//remove team into wait list Game
 module.exports.cancelRequestGame = async (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send(' ID unknow : ' + req.params.id)
 
+    try {
+        await TeamModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $pull: { requestGame: req.body.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (err) return res.status(400).send(err);
+            }
+        );
+        await TeamModel.findByIdAndUpdate(
+            req.body.id,
+            {
+                $pull: { pendingRequestGame: req.params.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (!err) res.send(docs);
+                else return res.status(400).send(err);
+            }
+        )
+    } catch (err) {
+        res.status(400).send(err);
+    }
+};
+
+//show wait list Game
+module.exports.showWaitListGame = (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send(' ID unknow : ' + req.params.id)
+
+    TeamModel.findById(req.params.id, (err, docs) => {
+        if (!err) res.send(docs.requestGame);
+        else console.log('ID unknow : ' + err);
+    })
+};
+
+//accept game
+module.exports.acceptGame = async (req, res) => {
+    if (!ObjectID.isValid(req.params.id) ||
+        !ObjectID.isValid(req.body.idToRequest))
+        return res.status(400).send(' ID unknow : ' + req.params.id)
+
+    try {
+        await TeamModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $addToSet: {
+                    games: {
+                        opponentId: req.body.idToRequest,
+                        timestamps: new Date().getTime(),
+                    },
+                },
+            },
+            { new: true },
+            (err, docs) => {
+                if (err) return res.status(400).send(err);
+            }
+        );
+        await TeamModel.findByIdAndUpdate(
+            req.body.idToRequest,
+            {
+                $addToSet: {
+                    games: {
+                        opponentId: req.params.id,
+                        timestamps: new Date().getTime(),
+                    },
+                },
+            },
+            { new: true },
+            (err, docs) => {
+                if (err) return res.status(400).send(err);
+            }
+        );
+        await TeamModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $pull: { requestGame: req.body.idToRequest }
+            },
+            { new: true },
+            (err, docs) => {
+                if (err) return res.status(400).send(err);
+            }
+        );
+        await TeamModel.findByIdAndUpdate(
+            req.body.idToRequest,
+            {
+                $pull: { pendingRequestGame: req.params.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (!err) res.send(docs);
+                else return res.status(400).send(err);
+            }
+        )
+    } catch (err) {
+        res.status(400).send(err);
+    }
 };
