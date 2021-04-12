@@ -314,3 +314,39 @@ module.exports.acceptGame = async (req, res) => {
         res.status(400).send(err);
     }
 };
+
+module.exports.Result = async (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send(' ID unknow : ' + req.params.id)
+
+    try {
+        await TeamModel.findById(req.params.id, (err, docs) => {
+            const theGame = docs.games.find((game) =>
+                game._id.equals(req.body.gameId)
+            );
+
+            if (!theGame) return res.status(404).send("Game not found");
+            theGame.goalFor = req.body.goalFor;
+            theGame.goalAgainst = req.body.goalAgainst;
+
+            docs.save();
+        });
+        await TeamModel.findById(req.body.teamId, (err, docs) => {
+            const theGame = docs.games.find((game) =>
+                game._id.equals(req.body.gameId2)
+            );
+
+            if (!theGame) return res.status(404).send("Game not found");
+            theGame.goalFor = req.body.goalAgainst;
+            theGame.goalAgainst = req.body.goalFor;
+
+            return docs.save((err) => {
+                if (!err) return res.status(200).send(docs);
+                return res.status(500).send(err);
+            });
+        });
+    } catch (err) {
+        if (err) return res.status(400).send(err);
+    }
+};
+

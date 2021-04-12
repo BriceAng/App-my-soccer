@@ -48,6 +48,10 @@ const TeamSchema = new mongoose.Schema(
                     opponentId: String,
                     goalFor: Number,
                     goalAgainst: Number,
+                    validateGame: {
+                        type: Boolean,
+                        default: false
+                    },
                     timestamps: Number
                 }
             ]
