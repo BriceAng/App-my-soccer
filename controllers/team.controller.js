@@ -58,3 +58,131 @@ module.exports.deleteTeam = (req, res) => {
         }
     )
 };
+
+// Add user to wait list team
+module.exports.requestUser = async (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send(' ID unknow : ' + req.params.id)
+
+    try {
+        await TeamModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $addToSet: { requestUser: req.body.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (err) return res.status(400).send(err);
+            }
+        );
+        await UserModel.findByIdAndUpdate(
+            req.body.id,
+            {
+                $addToSet: { waitList: req.params.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (!err) res.send(docs);
+                else return res.status(400).send(err);
+            }
+        )
+    } catch (err) {
+        res.status(400).send(err);
+    }
+};
+
+//remove user to wait list team
+module.exports.cancelRequestUser = async (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send(' ID unknow : ' + req.params.id)
+
+    try {
+        await TeamModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $pull: { requestUser: req.body.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (err) return res.status(400).send(err);
+            }
+        );
+        await UserModel.findByIdAndUpdate(
+            req.body.id,
+            {
+                $pull: { waitList: req.params.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (!err) res.send(docs);
+                else return res.status(400).send(err);
+            }
+        )
+    } catch (err) {
+        res.status(400).send(err);
+    }
+}; 
+
+//show wait list team
+module.exports.showWaitListUser = (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send(' ID unknow : ' + req.params.id)
+
+    TeamModel.findById(req.params.id, (err, docs) => {
+        if (!err) res.send(docs.requestUser);
+        else console.log('ID unknow : ' + err);
+    })
+};
+
+//accept user in wait list to userList
+module.exports.acceptUser = async (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send(' ID unknow : ' + req.params.id)
+
+    try{
+        await TeamModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $pull: { requestUser: req.body.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (err) return res.status(400).send(err);
+            }
+        );
+        await UserModel.findByIdAndUpdate(
+            req.body.id,
+            {
+                $pull: { waitList: req.params.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (!err) res.send(docs);
+                else return res.status(400).send(err);
+            }
+        );
+        await TeamModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $addToSet: { userList: req.body.id }
+            },
+            { new: true },
+            (err, docs) => {
+                if (err) return res.status(400).send(err);
+            }
+        )
+
+    } catch (err) {
+        res.status(400).send(err);
+    }
+};
+
+//refuse user in wait list to userList
+module.exports.requestGame = async (req, res) => {
+
+};
+
+//refuse user in wait list to userList
+module.exports.cancelRequestGame = async (req, res) => {
+
+};
