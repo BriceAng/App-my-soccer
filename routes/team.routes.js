@@ -1,5 +1,8 @@
 const router = require('express').Router();
 const teamController = require('../controllers/team.controller');
+const uploadController = require('../controllers/upload.controller');
+const multer = require('multer');
+const upload = multer();
 
 //basics routes team
 router.get('/', teamController.showTeams);
@@ -20,5 +23,8 @@ router.patch('/cancel-request-game/:id', teamController.cancelRequestGame);
 router.patch('/accept-game/:id', teamController.acceptGame);
 router.patch('/result/:id', teamController.Result);
 router.patch('/valid-result/:id', teamController.validResult);
+
+//upload picture
+router.post('/upload',upload.single('file'), uploadController.uploadTeam);
 
 module.exports = router;

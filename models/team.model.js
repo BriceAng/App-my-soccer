@@ -30,12 +30,14 @@ const TeamSchema = new mongoose.Schema(
         //List of pending player requests
         requestUser: {
             type: [String],
-            required: true
+            required: true,
+            unique: true
         },
         //List of match requests (other team)
         requestGame: {
             type: [String],
-            required: true
+            required: true,
+            unique: true,
         },
         //List of pending match requests (your team)
         pendingRequestGame: {
