@@ -19,5 +19,6 @@ router.patch('/request-game/:id', teamController.requestGame);
 router.patch('/cancel-request-game/:id', teamController.cancelRequestGame);
 router.patch('/accept-game/:id', teamController.acceptGame);
 router.patch('/result/:id', teamController.Result);
+router.patch('/valid-result/:id', teamController.validResult);
 
 module.exports = router;

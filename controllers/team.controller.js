@@ -350,3 +350,65 @@ module.exports.Result = async (req, res) => {
     }
 };
 
+module.exports.validResult = async (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send(' ID unknow : ' + req.params.id)
+
+    try {
+        await TeamModel.findById(req.params.id, (err, docs) => {
+            const team = docs;
+            const theGame = docs.games.find((game) =>
+                game._id.equals(req.body.gameId)
+            );
+
+            if (!theGame) return res.status(404).send("Game not found");
+            theGame.validateGame = true;
+
+            if (theGame.goalFor > theGame.goalAgainst) {
+                team.won += 1;
+                team.points += 3;
+            } else if (theGame.goalFor < theGame.goalAgainst) {
+                team.lost += 1
+            } else {
+                team.drawn += 1;
+                team.points += 1
+            }
+
+            docs.save();
+        });
+        await TeamModel.findById(req.body.teamId, (err, docs) => {
+            const team = docs;
+            const theGame = docs.games.find((game) =>
+                game._id.equals(req.body.gameId2)
+            );
+
+            if (!theGame) return res.status(404).send("Game not found");
+            theGame.validateGame = true;
+
+            if (theGame.goalFor > theGame.goalAgainst) {
+                team.won += 1;
+                team.points += 3;
+            } else if (theGame.goalFor < theGame.goalAgainst) {
+                team.lost += 1
+            } else {
+                team.drawn += 1;
+                team.points += 1
+            }
+
+            console.log(docs);
+
+            return docs.save((err) => {
+                if (!err) return res.status(200).send(docs);
+                return res.status(500).send(err);
+            });
+        });
+        //--------------------voir pour ajouter avec un if dans victoire defaite ou match nul-------------
+        await TeamModel.findByIdAndUpdate(req.params.id, (err, docs) => {
+
+        }
+
+        )
+    } catch (err) {
+        if (err) return res.status(400).send(err);
+    }
+};

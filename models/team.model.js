@@ -55,6 +55,24 @@ const TeamSchema = new mongoose.Schema(
                     timestamps: Number
                 }
             ]
+        },
+        won: {
+            type: Number,
+            default: 0,
+        },
+        
+        drawn: {
+            type: Number,
+            default: 0,
+        },
+        
+        lost: {
+            type: Number,
+            default: 0,
+        },
+        points: {
+            type: Number,
+            default: 0
         }
     },
     {
