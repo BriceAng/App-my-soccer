@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useContext } from "react";
+import Log from "../components/Log";
+import { UidContext } from "../components/AppContext";
 
-const profil = () => {
+
+const Profil = () => {
+    const uid = useContext(UidContext);
+
     return (
-        <div>
-        Hello depuis profil
-    </div>
+        <div className="profil-page">
+            {uid ? (
+                <h1>UPDATE PROFIL</h1>
+            ) : (
+                <div className="log-container">
+                    <Log signin={false} signup={true} />
+                </div>
+            )}
+        </div>
     );
 };
 
-export default profil;
+export default Profil;
