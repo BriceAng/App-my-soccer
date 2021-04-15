@@ -5,10 +5,12 @@ import Game from '../../pages/Game';
 import Profil from '../../pages/Profil';
 import Ranking from '../../pages/Ranking';
 import Team from '../../pages/Team';
+import Navbar from '../Navbar';
 
 const index = () => {
     return (
     <Router>
+    <Navbar />
         <Switch>
             <Route path="/" exact component={ Home } />
             <Route path="/game" exact component={ Game } />

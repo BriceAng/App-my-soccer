@@ -12,7 +12,7 @@ const Profil = () => {
                 <h1>UPDATE PROFIL</h1>
             ) : (
                 <div className="log-container">
-                    <Log signin={false} signup={true} />
+                    <Log signin={true} signup={false} />
                 </div>
             )}
         </div>
