@@ -1,13 +1,86 @@
-.nav-container {
+.navbar {
     background-color: #293241;
+    height: 80px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.menu-bars {
+    color: #F3C969;
+    margin-left: 1rem;
+    font-size: 2rem;
+    background: none;
 }
 
-.icon-navbar {
+.nav-menu {
+    background-color: #293241;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    transition: 850ms;
+}
+
+.nav-menu.active {
+    left: 0;
+    transition:350ms;
+}
+
+.nav-text {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 8px 0px 8px 16px;
+    list-style: none;
+    height: 50px;
+}
+
+.nav-text a {
+    text-decoration: none;
     color: #F3C969;
-    margin: auto 20px;
+    font-size: 18px;
+    width: 95%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-radius: 4px;
+}
+
+.nav-text a:hover {
+    background-color: #598FC5;
+}
+
+.nav-menu-items {
+    margin-right: 30px;
+    padding-left: 15px;
+    width: 100%;
+}
+
+.navbar-toggle {
+    background-color: #293241;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.icon-sidebar {
+    margin-right: 16px;
 }
 
 .welcome h5 {
     color: #F3C969;
+}
+
+.logout {
+    margin: 10px 30px;
+}
+
+.logo {
+    margin-right: 1rem;
 }

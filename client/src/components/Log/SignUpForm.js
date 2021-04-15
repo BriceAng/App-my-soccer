@@ -130,7 +130,7 @@ const SignUpForm = () => {
                     </label>
                     <div className="terms error"></div>
                     <br />
-                    <input type="submit" value="S'inscription" className="btn btn-warning" />
+                    <input type="submit" value="S'inscrire" className="btn btn-warning" />
                 </form>
             )}
         </>
