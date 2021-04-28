@@ -1,9 +1,15 @@
-@import './components/navbar.scss';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+@import './components/navbar.scss';
+@import './components/updateProfil.scss';
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: #F3C969;
+    color: #293241;
 }

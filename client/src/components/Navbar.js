@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, NavLink } from "react-router-dom";
 import { UidContext } from './AppContext';
 import Logout from './Log/Logout';
@@ -13,8 +12,6 @@ const Navbar = () => {
     const showSidebar = () => setSidebar(!sidebar);
 
     const uid = useContext(UidContext);
-    const userData = useSelector((state) => state.userReducer);
-
 
     return (
         <>
@@ -40,9 +37,9 @@ const Navbar = () => {
                             <i className="bi bi-x"></i>
                         </Link>
                     </li>
-                    {SidebarData.map((item, index) => {
+                    {SidebarData.map((item) => {
                         return (
-                            <li keys={index} className={item.cName}>
+                            <li keys={item.id} className={item.cName}>
                                 <Link to={item.path}>
                                     <span><i className={item.icon} /> {item.title}</span>
                                 </Link>

@@ -13,7 +13,6 @@ const userSchema = new mongoose.Schema(
             unique: true,
             trim: true,
         },
-
         email: {
             type: String,
             required: true,
@@ -22,24 +21,23 @@ const userSchema = new mongoose.Schema(
             unique: true,
             trim: true,
         },
-
         password: {
             type: String,
             required: true,
             max: 1024,
             minlength: 8,
         },
-
         picture: {
             type: String,
             default: "./uploads/profil/random-user.png",
         },
-
         bio: {
             type: String,
             max: 1024,
         },
-
+        team: {
+            type: String,
+        },
         waitList: {
             type: [String],
         },

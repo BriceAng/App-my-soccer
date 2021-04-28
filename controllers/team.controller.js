@@ -143,7 +143,8 @@ module.exports.acceptUser = async (req, res) => {
         await TeamModel.findByIdAndUpdate(
             req.params.id,
             {
-                $pull: { requestUser: req.body.id }
+                $pull: { requestUser: req.body.id },
+                $addToSet: { userList: req.body.id }
             },
             { new: true },
             (err, docs) => {
@@ -153,7 +154,8 @@ module.exports.acceptUser = async (req, res) => {
         await UserModel.findByIdAndUpdate(
             req.body.id,
             {
-                $pull: { waitList: req.params.id }
+                $pull: { waitList: req.params.id },
+                $addToSet: {team: req.params.id}
             },
             { new: true },
             (err, docs) => {
@@ -161,16 +163,6 @@ module.exports.acceptUser = async (req, res) => {
                 else return res.status(400).send(err);
             }
         );
-        await TeamModel.findByIdAndUpdate(
-            req.params.id,
-            {
-                $addToSet: { userList: req.body.id }
-            },
-            { new: true },
-            (err, docs) => {
-                if (err) return res.status(400).send(err);
-            }
-        )
 
     } catch (err) {
         res.status(400).send(err);

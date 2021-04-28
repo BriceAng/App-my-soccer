@@ -1,0 +1,41 @@
+.profil-container {
+    background-color: #293241;
+    border-radius: 25px;
+    color: #F3C969;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.profil-container h1 {
+    background-color: #598FC5;
+    border-radius: 25px 25px 0 0;
+    color: #293241;
+    padding: 25px;
+}
+
+.profil-body {
+    display: flex;
+}
+
+.left-part {
+    border-right: 2px solid #F3C969;
+    margin: 25px;
+    
+}
+
+.left-part img {
+    border-radius: 100px;
+    margin: 10px;
+    height: 200px;
+    width: 200px;
+}
+
+.upload-pic input[type="submit"]{
+    margin-top: 60px;
+    background-color: #F3C969;
+}
+
+.rigth-part {
+    margin: 25px;
+}
+

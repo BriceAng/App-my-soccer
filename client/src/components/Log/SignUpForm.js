@@ -42,7 +42,6 @@ const SignUpForm = () => {
                 },
             })
                 .then((res) => {
-                    console.log(res);
                     if (res.data.errors) {
                         usernameError.innerHTML = res.data.errors.username;
                         emailError.innerHTML = res.data.errors.email;

@@ -1,11 +1,12 @@
 import React from 'react';
+import TeamForm from '../components/team/TeamForm';
 
-const team = () => {
+
+const Team = () => {
+
     return (
-        <div>
-        Hello depuis team
-    </div>
+            <TeamForm />
     );
 };
 
-export default team;
+export default Team;
